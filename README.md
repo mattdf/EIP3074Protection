@@ -1,13 +1,15 @@
 # Returning Externally Owned Account checks to EIP3074
 
-[EIP3074](https://eips.ethereum.org/EIPS/eip-3074) allows a contract to set `msg.sender` to `tx.origin` for the next call
-using the `AUTH`/`AUTHCALL` opcodes.
+[EIP3074](https://eips.ethereum.org/EIPS/eip-3074) allows user to delegate the control 
+of their account to a smart contract by setting `msg.sender` to `tx.origin` 
+(the address that created the tx) for the next call using the `AUTH`/`AUTHCALL` opcodes.
 
 This breaks existing contracts that use those variables to check whether the
 caller is a non-contract account (an EOA).
 
-However, in [EIP150](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-150.md), partly as an anti-DoS measure, a mechanic was added to all
-\*CALL opcodes which restricts the gas passed to be `(64/63)*gasleft`.
+However, in [EIP150](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-150.md), 
+partly as an anti-DoS measure, a mechanic was added to all\*CALL opcodes which
+restricts the gas passed to be `(64/63)*gasleft`.
 
 This can be used as a hack to check whether a call to a contract is a top-level
 call (from an EOA) rather than from a contract, by setting `gas_allowance =
