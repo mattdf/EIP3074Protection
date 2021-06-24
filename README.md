@@ -1,7 +1,7 @@
 # Returning Externally Owned Account checks to EIP3074
 
 The recently proposed [EIP3074](https://eips.ethereum.org/EIPS/eip-3074) allows a user to delegate control 
-of their account to a smart contract by setting `msg.sender` to `tx.origin` 
+of their account to a smart contract, optionally setting `msg.sender` to `tx.origin` 
 (the address that created the tx) for the next call using the `AUTH`/`AUTHCALL` opcodes.
 
 This breaks existing contracts that use those variables to check whether the
