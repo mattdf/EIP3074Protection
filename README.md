@@ -29,15 +29,21 @@ any function you don't want called by any other contract.
 
 ```solidity 
 contract EIP3074Protection {
+    
     bool protected = false;
     
+    // be careful of re-entrancy, this modifier won't handle it 
     modifier NoContracts {
+        bool top_level = false;
         if (!protected){
             require(gasleft() > ((block.gaslimit/64)*63), "Only EOAs can call this contract");
+            protected = true;
+            top_level = true;
         }
-        protected = true;
         _;
-        protected = false;
+        if (top_level) {
+            protected = false;
+        }
     }
 }
 ```
