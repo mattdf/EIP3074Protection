@@ -16,7 +16,7 @@ block.gaslimit.
 Since there is no way to have an allowance or a gasleft > block.gaslimit, even
 without the ability to know what the top level call's gas allowance is, this
 can be used to know if we are in a top level call by just ensuring that
-`block.gaslimit*(64/63) > gasleft()`, as this check can never be true for
+`gasleft() > block.gaslimit*(64/63)`, as this check can never be true for
 anything other than a top level (EOA) call.
 
 Turing completeness strikes again!
