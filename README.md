@@ -23,7 +23,7 @@ Turing completeness strikes again!
 
 # Make smart contracts EOA-safe again
 
-The contracts in this repo implement an `EIP3074Protection` contract which can
+The code in this repo implements an `EIP3074Protection` contract which can
 be inherited to provide the `NoContracts` guard modifier that can be applied to
 any function you don't want called by any other contract.
 
