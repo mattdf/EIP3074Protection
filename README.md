@@ -10,7 +10,7 @@ However, in EIP150, partly as an anti-DoS measure, a mechanic was added to all
 *CALL opcodes which restricts the gas passed to be (64/63)*gasleft.
 
 This can be used as a hack to check whether a call to a contract is a top-level
-call (from an EOA) rather than from a contract, by setting the `gas allowance =
+call (from an EOA) rather than from a contract, by setting `gas allowance =
 block.gaslimit`.
 
 Since there is no way to have an allowance or a gasleft > block.gaslimit, even
