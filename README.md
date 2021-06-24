@@ -1,6 +1,6 @@
 # Returning Externally Owned Account checks to EIP3074
 
-EIP3074 allows a contract to set `tx.origin` to `msg.sender` for the next call
+EIP3074 allows a contract to set `msg.sender` to `tx.origin` for the next call
 using the `AUTH`/`AUTHCALL` opcodes.
 
 This breaks existing contracts that use those variables to check whether the
