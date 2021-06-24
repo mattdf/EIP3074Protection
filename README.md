@@ -27,6 +27,52 @@ The code in this repo implements an `EIP3074Protection` contract which can
 be inherited to provide the `NoContracts` guard modifier that can be applied to
 any function you don't want called by any other contract.
 
+```solidity 
+contract EIP3074Protection {
+    bool protected = false;
+    
+    modifier NoContracts {
+        if (!protected){
+            require(gasleft() > ((block.gaslimit/64)*63), "Only EOAs can call this contract");
+        }
+        protected = true;
+        _;
+        protected = false;
+    }
+}
+```
+
+Inheriting and applying the modifier prevents any outside contract from calling the guarded function,
+but allows the contract's function to call each other still due to the protected state flag:
+
+```solidity
+contract OnlyEOAs is EIP3074Protection {
+    
+    event Success(bool val);
+
+    function doSomething() NoContracts public {
+        emit Success(true);
+    }
+
+    function doSomethingElse() NoContracts public {
+        // contract can internally call any other functions that have NoContracts modifier
+        // but they can't be called from an outsider contract
+        doSomething(); 
+    }
+    
+}
+```
+
+But any outside contract performing a call to the guarded functions will fail:
+
+```solidity
+contract EIP3074ProtectionTest {
+    function tryCallingProtected(OnlyEOAs target) external {
+        target.doSomething(); // this call will revert
+    }
+}
+```
+
 To test, just install eth-brownie and ganache-cli and run:
 
 `brownie run scripts/eip3074.py`
