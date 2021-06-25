@@ -12,7 +12,7 @@ way to detect whether a caller was an EOA, even without using `tx.origin` at all
 
 Enter [EIP150](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-150.md): one of its changes,
 partly adopted as an anti-DoS measure, is a mechanic added to all \*CALL opcodes which
-restricts the gas passed to next call to be `(63/64)*gasleft`.
+restricts the gas passed to next call to at most be `(63/64)*gasleft`.
 
 This can be used as a hack to check whether a call to a contract is a top-level
 call (from an EOA) rather than from a contract, by setting `gas_allowance =
